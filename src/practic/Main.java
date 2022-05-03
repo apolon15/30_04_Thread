@@ -1,16 +1,16 @@
 package practic;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.OptionalDouble;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
-    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
     public static void main(String[] args) throws IOException, InterruptedException {
 /*
 При старте приложения запускаются три потока. Пер-
@@ -56,44 +56,35 @@ public class Main {
         double numY = 0;
         do {
             try {
-                stop = false;
                 System.out.println("Введи 1 дробь через запятую \" , \": ");
-                numX = scanner.nextDouble();
+                numX = Double.parseDouble(scanner.next());
                 System.out.println("Введи 2 дробь через запятую \" , \": ");
-                numY = scanner.nextDouble();
-
-            } catch (InputMismatchException exception) {
+                numY = Double.parseDouble(scanner.next());
+                stop = true;
+            } catch (NullPointerException exception) {
+                System.out.println("Не корректный ввод");
+                stop = false;
+            } catch (NumberFormatException exception) {
                 System.out.println("Не корректный ввод");
                 stop = false;
             }
-        } while (stop);
-        FractionThread fractionThread = new FractionThread();
-        fractionThread.setX(numX);
-        fractionThread.setY(numY);
-        FractionThread fractionThread2 = new FractionThread();
-        FractionThread fractionThread3 = new FractionThread();
-        FractionThread fractionThread4 = new FractionThread();
-        fractionThread2.setX(numX);
-        fractionThread2.setY(numY);
-        fractionThread3.setX(numX);
-        fractionThread3.setY(numY);
-        fractionThread4.setX(numX);
-        fractionThread4.setY(numY);
-        Thread threadRunnable = new Thread(fractionThread);
-        Thread threadRunnable2 = new Thread(fractionThread2);
-        Thread threadRunnable3 = new Thread(fractionThread3);
-        Thread threadRunnable4 = new Thread(fractionThread4);
-        threadRunnable4.setName("div");
-        threadRunnable3.setName("mult");
-        threadRunnable2.setName("diff");
-        threadRunnable.setName("sum");
+        } while (!stop);
+        double finalNumX = numX;
+        double finalNumY = numY;
+        Thread threadRunnable = new Thread(() -> System.out.println("Сумма дробей равна: " + (finalNumX + finalNumY)));
+        Thread threadRunnable2 = new Thread(() -> System.out.println("Разность дробей равна: " + (finalNumX - finalNumY)));
+        Thread threadRunnable3 = new Thread(() -> System.out.println("Произведение дробей равно: " + (finalNumX * finalNumY)));
+        Thread threadRunnable4 = new Thread(() -> System.out.println("Разность при делении дробей равна: " + (finalNumX / finalNumY)));
         threadRunnable.start();
-    //    threadRunnable.join();
         threadRunnable2.start();
-       // threadRunnable2.join();
         threadRunnable3.start();
-      //  threadRunnable3.join();
         threadRunnable4.start();
+//        ExecutorService executorService = Executors.newFixedThreadPool(4);
+//        executorService.submit(threadRunnable);
+//        executorService.submit(threadRunnable2);
+//        executorService.submit(threadRunnable3);
+//        executorService.submit(threadRunnable4);
+
     }
 }
 
