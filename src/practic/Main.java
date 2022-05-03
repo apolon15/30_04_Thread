@@ -71,10 +71,10 @@ public class Main {
         } while (!stop);
         double finalNumX = numX;
         double finalNumY = numY;
-        Thread threadRunnable = new Thread(() -> System.out.println("Сумма дробей равна: " + (finalNumX + finalNumY)));
-        Thread threadRunnable2 = new Thread(() -> System.out.println("Разность дробей равна: " + (finalNumX - finalNumY)));
-        Thread threadRunnable3 = new Thread(() -> System.out.println("Произведение дробей равно: " + (finalNumX * finalNumY)));
-        Thread threadRunnable4 = new Thread(() -> System.out.println("Разность при делении дробей равна: " + (finalNumX / finalNumY)));
+        Thread threadRunnable = new Thread(() -> System.out.printf("Сумма дробей равна: %.1f \n", (finalNumX + finalNumY)));
+        Thread threadRunnable2 = new Thread(() -> System.out.printf("Разность дробей равна: %.1f \n ", (finalNumX - finalNumY)));
+        Thread threadRunnable3 = new Thread(() -> System.out.print("Произведение дробей равно: " + ((finalNumX * finalNumY))+"\n"));
+        Thread threadRunnable4 = new Thread(() -> System.out.print("Разность при делении дробей равна: " + ((finalNumX / finalNumY))+"\n"));
         threadRunnable.start();
         threadRunnable2.start();
         threadRunnable3.start();
